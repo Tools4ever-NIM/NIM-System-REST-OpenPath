@@ -1,0 +1,527 @@
+{
+    "schema": {
+        "options": {},
+        "crud_objects": {
+			"sites": {
+				"operations": {
+					"site_get": {
+						"method": "get",
+						"call": {
+							"path": "/orgs/{org_id}/sites"
+						},
+                        "processing_options": {
+                            "output_field": "data"
+                        },
+                        "query_parameters": {}
+					}
+				},
+				"parameters": {},
+				"key": "id",
+				"resources": {
+					"opal": "string*",
+					"id": "string*",
+					"name": "string*",
+					"address": "string*",
+					"address2": "string*",
+					"city": "string*",
+					"state": "string*",
+					"zip": "string*",
+					"country": "string*",
+					"phone": "string*",
+					"language": "string*",
+					"createdAt": "datetime*",
+					"updatedAt": "datetime*",
+					"zoneCount": "number*"
+				}
+			},
+			"groups": {
+				"operations": {
+					"group_get": {
+						"method": "get",
+						"call": {
+							"path": "/orgs/{org_id}/groups"
+						},
+                        "processing_options": {
+                            "output_field": "data"
+                        },
+                        "query_parameters": {}
+					}
+				},
+				"parameters": {},
+				"key": "id",
+				"resources": {
+					"id": "string*",
+					"name": "string*",
+					"description": "string*",
+					"createdAt": "datetime*",
+					"updatedAt": "datetime*",
+					"userCount": "number*",
+					"badgeConfig": "string"
+				}
+			},
+			"members": {
+                "operations": {
+                    "member_get": {
+                        "method": "get",
+                        "call": {
+                            "mode": "iteration",
+                            "table": "groups",
+                            "iterator": "id",
+                            "path": "/orgs/{org_id}/groups/{iterator}/users",
+                            "base": {
+                                "group_id": "{iterator}"
+                            }
+                        },
+						"processing_options": {
+                            "output_field": "data"
+                        },
+                        "query_parameters": {}
+                    },
+					"member_add": {
+						"method": "put",
+						"call": {
+							"mode": "normal",
+							"path": "/orgs/{org_id}/groups/{group_id}/users/{id}"
+						},
+						"semantics": "create",
+						"resource_allowance_default": "prohibited",
+						"resource_mandatory": [
+                            "group_id",
+							"id"
+                        ]
+					},
+					"member_remove": {
+						"method": "delete",
+						"call": {
+							"mode": "normal",
+							"path": "/orgs/{org_id}/groups/{group_id}/users/{id}"
+						},
+						"semantics": "delete",
+						"resource_allowance_default": "prohibited",
+						"resource_mandatory": [
+                            "group_id",
+							"id"
+                        ]
+					}
+				},
+				"groupmembership": {
+                    "add_operation": "member_add",
+                    "remove_operation": "member_remove",
+                    "member_table": "users",
+                    "group_table": "groups",
+                    "member_attributes": {
+                        "id": "id"
+                    },
+                    "group_attributes": {
+                        "id": "group_id"
+                    }
+                },
+				"resources": {
+					"group_id": "string*",
+					"id": "string*",
+					"status": "string*"
+				}
+			},
+			"namespaces": {
+				"operations": {
+					"namespace_get": {
+						"method": "get",
+						"call": {
+							"path": "/orgs/{org_id}/namespaces"
+						},
+                        "processing_options": {
+                            "output_field": "data"
+                        },
+                        "query_parameters": {}
+					}
+				},
+				"parameters": {},
+				"key": "id",
+				"resources": {
+					"id": "string*",
+					"nickname": "string*",
+					"namespaceType": {
+						"id": "_:string*",
+						"name": ":_string*",
+						"modelName": "_:string*"
+					},
+					"identityProvider": {
+						"id": "_:string*",
+						"identityProviderType": {
+							"id": "_:string*",
+							"name": "_:string*"
+						}
+					},
+					"org": {
+						"id": "_:string*",
+						"name": "_:string*"
+					}
+				}
+			},
+			"credentials": {
+				"operations": {
+					"credential_get": {
+						"method": "get",
+						"call": {
+							"path": "/orgs/{org_id}/credentials"
+						},
+						"processing_options": {
+                            "output_field": "data"
+                        },
+                        "query_parameters": {}
+					},
+					"credential_create": {
+						"method": "post",
+						"semantics": "create",
+						"call": {
+							"path": "/orgs/{org_id}/users/{user_id}/credentials"
+						},
+						"resource_allowance_default": "optional",
+						"resource_mandatory": [ "credentialType_id", "user_id" ],
+						"resource_prohibited": [
+							"createdAt",
+							"updatedAt",
+							"credentialType_name",
+							"credentialType_modelName",
+							"mobile_hasSetupMobileToken",
+							"mobile_id",
+							"mobile_provisionedAt",
+							"mobile_httpUserAgent",
+							"mobile_version",
+							"mobile_build",
+							"mobile_os"
+						]
+					},
+					"credential_setup_mobile": {
+						"method": "post",
+						"removeBlankFields": true,
+						"call": {
+							"path": "/auth/setupMobile"
+						},
+						"resource_allowance_default": "prohibited",
+						"resource_mandatory": [
+							"id"
+						],
+						"body": {
+							"credentialId": "{id}",
+							"_nim_merge_attributes_": false
+						}
+					}
+				},
+				"key": "id",
+				"parameters": {},
+				"resources": {
+					"id": "string*",
+					"startDate": "datetime*",
+					"endDate": "datetime*",
+					"createdAt": "datetime*",
+					"updatedAt": "datetime*",
+					"credentialType": {
+						"id": "_:string*",
+						"name": "_:string*",
+						"modelName": "_:string*"
+					},
+					"user": {
+						"id": "_:string*"
+					},
+					"mobile": {
+						"hasSetupMobileToken": "_:boolean*",
+						"id": "_:string*",
+						"name": "_:string*",
+						"provisionedAt": "_:datetime*",
+						"httpUserAgent": "_:string",
+						"version": "_:string",
+						"build": "_:string",
+						"os": "_:string"
+					}
+				}
+			},
+			"credential_types": {
+				"operations": {
+					"credential_get": {
+						"method": "get",
+						"call": {
+							"path": "/orgs/{org_id}/credentialTypes"
+						},
+						"processing_options": {
+                            "output_field": "data"
+                        },
+                        "query_parameters": {}
+					}
+				},
+				"key": "id",
+				"parameters": {},
+				"resources": {
+					"id": "string*",
+					"name": "string*",
+					"description": "string*",
+					"modelName": "string*"
+				}
+			},
+			"users": {
+				"operations": {
+					"user_get": {
+						"method": "get",
+						"call": {
+							"path": "/orgs/{org_id}/users"
+						},
+                        "processing_options": {
+                            "output_field": "data"
+                        },
+                        "query_parameters": {}
+					},
+					"user_create": {
+						"method": "post",
+						"removeBlankFields": true,
+						"semantics": "create",
+						"call": {
+							"path": "/orgs/{org_id}/users"
+						},
+						"resource_allowance_default": "optional",
+						"resource_mandatory": [
+							"identity_email",
+							"identity_firstName",
+							"identity_lastName"
+						],
+						"resource_prohibited": [
+							"opal",
+							"id",
+							"status",
+							"manuallyInactivatedAt",
+							"lastActivityAt",
+							"createdAt",
+							"updatedAt",
+							"identity_fullName",
+							"identity_initials",
+							"identity_opal",
+							"identity_id",
+							"identity_isEmailVerified",
+							"identity_idpUniqueIdentifier",
+							"identity_language",
+							"identity_createdAt",
+							"identity_updatedAt",
+							"identity_needsPasswordChange",
+							"identity_namespace_identityProvider_id",
+							"identity_namespace_identityProvider_identityProviderType_id",
+							"identity_namespace_identityProvider_identityProviderType_name",
+							"identity_namespace_identityProvider_isSsoEnabled",
+							"identity_namespace_identityProvider_isSyncMobilePhoneEnabled",
+							"identity_namespace_identityProvider_org_id",
+							"identity_namespace_identityProvider_org_name",
+							"identity_namespace_namespaceType_id",
+							"identity_namespace_namespaceType_modelName",
+							"identity_namespace_namespaceType_name"
+						],
+						"body": {
+							"startDate": "{startDate}",
+							"endDate": "{endDate}",
+							"startAndEndDateTimeZoneId": "{startAndEndDateTimeZoneId}",
+							"hasRemoteUnlock": "{hasRemoteUnlock}",
+							"isOverrideAllowed": "{isOverrideAllowed}",
+							"externalId": "{externalId}",
+							"personId": "{personId}",
+							"department": "{department}",
+							"title": "{title}",
+							"identity": {
+								"email": "{identity_email}",
+								"password": "{identity_password}",
+								"firstName": "{identity_firstName}",
+								"middleName": "{identity_middleName}",
+								"lastName": "{identity_lastName}",
+								"namespaceId": "{identity_namespaceId}",
+								"namespaceNickname": "{identity_namespaceNickname}",
+								"mobilePhone": "{identity_mobilePhone}"
+							}
+						}
+					},
+					"user_update": {
+						"method": "patch",
+						"removeBlankFields": true,
+						"semantics": "update",
+						"call": {
+							"path": "/orgs/{org_id}/users/{id}"
+						},
+						"resource_allowance_default": "optional",
+						"resource_mandatory": [
+							"id"
+						],
+						"resource_prohibited": [
+							"opal",
+							"status",
+							"manuallyInactivatedAt",
+							"lastActivityAt",
+							"createdAt",
+							"updatedAt",
+							"identity_fullName",
+							"identity_initials",
+							"identity_opal",
+							"identity_id",
+							"identity_isEmailVerified",
+							"identity_idpUniqueIdentifier",
+							"identity_language",
+							"identity_createdAt",
+							"identity_updatedAt",
+							"identity_needsPasswordChange",
+							"identity_namespace_identityProvider_id",
+							"identity_namespace_identityProvider_identityProviderType_id",
+							"identity_namespace_identityProvider_identityProviderType_name",
+							"identity_namespace_identityProvider_isSsoEnabled",
+							"identity_namespace_identityProvider_isSyncMobilePhoneEnabled",
+							"identity_namespace_identityProvider_org_id",
+							"identity_namespace_identityProvider_org_name",
+							"identity_namespace_namespaceType_id",
+							"identity_namespace_namespaceType_modelName",
+							"identity_namespace_namespaceType_name"
+						],
+						"body": {
+							"startDate": "{startDate}",
+							"endDate": "{endDate}",
+							"startAndEndDateTimeZoneId": "{startAndEndDateTimeZoneId}",
+							"hasRemoteUnlock": "{hasRemoteUnlock}",
+							"isOverrideAllowed": "{isOverrideAllowed}",
+							"externalId": "{externalId}",
+							"personId": "{personId}",
+							"department": "{department}",
+							"title": "{title}",
+							"identity": {
+								"email": "{identity_email}",
+								"password": "{identity_password}",
+								"firstName": "{identity_firstName}",
+								"middleName": "{identity_middleName}",
+								"lastName": "{identity_lastName}",
+								"namespaceId": "{identity_namespaceId}",
+								"namespaceNickname": "{identity_namespaceNickname}",
+								"mobilePhone": "{identity_mobilePhone}"
+							}
+						}
+					},
+					"user_update_status": {
+						"method": "put",
+						"semantics": "update",
+						"call": {
+							"path": "/orgs/{org_id}/users/{id}/status"
+						},
+						"resource_allowance_default": "prohibited",
+						"resource_mandatory": [
+							"id",
+							"status"
+						],
+						"body": {
+							"status": "{status}"
+						}
+					}
+				},
+				"parameters": {},
+				"key": "id",
+				"resources": {
+					"opal": "string*",
+					"id": "string*",
+					"status": "string*",
+					"startDate": "datetime*",
+					"endDate": "datetime*",
+					"startAndEndDateTimeZoneId": "string*",
+					"hasRemoteUnlock": "boolean*",
+					"isOverrideAllowed": "boolean*",
+					"externalId": "string*",
+					"manuallyInactivatedAt": "datetime*",
+					"lastActivityAt": "datetime*",
+					"title": "string*",
+					"department": "string*",
+					"personId": "string*",
+					"createdAt": "datetime*",
+					"updatedAt": "datetime*",
+					"identity": {
+						"fullName": "_:string*",
+						"initials": "_:string*",
+						"opal": "_:string*",
+						"id": "_:string*",
+						"firstName": "_:string*",
+						"middleName": "_:string*",
+						"lastName": "_:string*",
+						"mobilePhone": "_:string*",
+						"email": "_:string*",
+						"password": "_:string^",
+						"isEmailVerified": "_:boolean*",
+						"idpUniqueIdentifier": "_:string*",
+						"language": "_:string*",
+						"createdAt": "_:datetime*",
+						"updatedAt": "_:datetime*",
+						"needsPasswordChange": "boolean*",
+						"namespace": {
+							"id": "_:string",
+							"nickname": "_:string",
+							"namespaceType": {
+								"id": "_:string",
+								"name": "_:string",
+								"modelName": "_:string"
+							},
+							"identityProvider": {
+								"id": "_:string",
+								"isSsoEnabled": "_:boolean",
+								"isSyncMobilePhoneEnabled": "_:boolean",
+								"identityProviderType": {
+									"id": "_:string",
+									"name": "_:string"
+								},
+								"org": {
+									"id": "_:string",
+									"name": "_:string"
+								}
+							}
+						}
+					}
+				}
+			}
+        }
+    },
+    "rest": {
+        "config": {
+            "authentication": "custom_post_token",
+            "baseUrl": "https://api.openpath.com",
+            "call_handling": "generic",
+            "get": {
+                "query_parameters": {},
+                "pagination": {
+                    "mode": "skip_take",
+                    "path":[],
+                    "page_size":"{page_size}",
+                    "params":{
+                        "limit":"{take_count}",
+                        "offset":"{skip_count}"
+                    }
+                }
+            },
+            "test_connection": {
+                "url": "/orgs/{org_id}/sites?limit=1"
+            }
+        },
+		"authOptions": {
+          "type": "custom_post_token",
+          "authUrl": "https://api.openpath.com/auth/login",
+		  "postData": {
+			  "email": "{user_name}",
+			  "password": "{password}"
+		  },
+          "directToken": true,
+          "tokenPath": "data.token",
+		  "headerName": "Authorization",
+		  "headerTemplate": "Bearer {token}"
+        }
+    },
+    "connection": {
+        "items": [
+            {
+                "name": "org_id",
+                "type": "textbox",
+                "label": "Organization ID:",
+                "value": ""
+            },
+			{
+                "name": "page_size",
+                "type": "textbox",
+                "label": "Page Size:",
+                "value": "100"
+            }
+        ]
+    }
+}

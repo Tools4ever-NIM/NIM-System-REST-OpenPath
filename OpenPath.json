@@ -192,6 +192,19 @@
 							"mobile_os"
 						]
 					},
+					"credential_delete": {
+						"method": "delete",
+						"call": {
+							"mode": "normal",
+							"path": "/orgs/{org_id}/users/{user_id}/credentials/{id}"
+						},
+						"semantics": "delete",
+						"resource_allowance_default": "prohibited",
+						"resource_mandatory": [
+                            "user_id",
+							"id"
+                        ]
+					},
 					"credential_setup_mobile": {
 						"method": "post",
 						"removeBlankFields": true,
@@ -233,6 +246,32 @@
 						"version": "_:string",
 						"build": "_:string",
 						"os": "_:string"
+					},
+					"cardMifareCsn": {
+						"id": "_:string*",
+						"number": "_:string*"
+					},
+					"card": {
+						"numBits": "_:string*",
+						"fields": {
+							"facilityCode": "_:string",
+							"cardId": "_:string"
+						},
+						"id": "_:string*",
+						"number": "_:string*",
+						"isOutputEnabled": "_:boolean*",
+						"facilityCode": "_:string*",
+						"cardId": "_:string*",
+						"cardFormat": {
+							"id": "_:string*",
+							"code": "_:string*",
+							"numBits": "_:string*"
+						}
+					},
+					"cloudKey": {
+						"id": "_:string*",
+						"name": "_:string*",
+						"maxDurationSeconds": "_:string*"
 					}
 				}
 			},

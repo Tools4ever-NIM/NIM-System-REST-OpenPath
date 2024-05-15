@@ -170,15 +170,23 @@
                         },
                         "query_parameters": {}
 					},
-					"credential_create": {
+					"credential_create_mobile": {
 						"method": "post",
 						"semantics": "create",
 						"call": {
 							"path": "/orgs/{org_id}/users/{user_id}/credentials"
 						},
+						"body": {
+							"credentialTypeId": "{credentialType.id}",
+							"mobile": {
+								"name": "{mobile.name}"
+							},
+							"_nim_merge_attributes_": false
+						},
 						"resource_allowance_default": "optional",
-						"resource_mandatory": [ "credentialType_id", "user_id" ],
+						"resource_mandatory": [ "credentialType_id", "user_id", "mobile_name" ],
 						"resource_prohibited": [
+							"id",
 							"createdAt",
 							"updatedAt",
 							"credentialType_name",

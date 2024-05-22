@@ -170,15 +170,53 @@
                         },
                         "query_parameters": {}
 					},
-					"credential_create": {
+					"credential_create_MifareCsn": {
 						"method": "post",
 						"semantics": "create",
 						"call": {
 							"path": "/orgs/{org_id}/users/{user_id}/credentials"
 						},
+						"body": {
+							"credentialTypeId": "{credentialType.id}",
+							"cardMifareCsn": {
+								"number": "{cardMifareCsn.number}"
+							},
+							"_nim_merge_attributes_": false
+						},
 						"resource_allowance_default": "optional",
-						"resource_mandatory": [ "credentialType_id", "user_id" ],
+						"resource_mandatory": [ "credentialType_id", "user_id", "cardMifareCsn_number" ],
 						"resource_prohibited": [
+							"id",
+							"createdAt",
+							"updatedAt",
+							"credentialType_name",
+							"credentialType_modelName",
+							"mobile_hasSetupMobileToken",
+							"mobile_id",
+							"mobile_provisionedAt",
+							"mobile_httpUserAgent",
+							"mobile_version",
+							"mobile_build",
+							"mobile_os"
+						]
+					},
+					"credential_create_mobile": {
+						"method": "post",
+						"semantics": "create",
+						"call": {
+							"path": "/orgs/{org_id}/users/{user_id}/credentials"
+						},
+						"body": {
+							"credentialTypeId": "{credentialType.id}",
+							"mobile": {
+								"name": "{mobile.name}"
+							},
+							"_nim_merge_attributes_": false
+						},
+						"resource_allowance_default": "optional",
+						"resource_mandatory": [ "credentialType_id", "user_id", "mobile_name" ],
+						"resource_prohibited": [
+							"id",
 							"createdAt",
 							"updatedAt",
 							"credentialType_name",

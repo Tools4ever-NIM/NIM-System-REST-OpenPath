@@ -9,7 +9,7 @@
 - Namespaces
 - Sites
 - User Credentials
-- USers
+- Users
 
 ## Actions
 - Access Group Members
@@ -17,7 +17,7 @@
 - User Credentials
   - Create/Delete/SetupMobile
 - Users
-  - Create/Update/SetStatus
+  - Create/Update/SetStatus/Delete
  
 # NIM Docs
 The official NIM documentation can be found at: https://docs.nimsuite.com

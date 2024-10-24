@@ -486,6 +486,17 @@
 						"body": {
 							"status": "{status}"
 						}
+					},
+					"user_delete": {
+						"method": "delete",
+						"semantics": "delete",
+						"call": {
+							"path": "/orgs/{org_id}/users/{id}"
+						},
+						"resource_allowance_default": "prohibited",
+						"resource_mandatory": [
+							"id"
+						]
 					}
 				},
 				"parameters": {},

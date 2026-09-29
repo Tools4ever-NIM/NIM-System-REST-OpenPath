@@ -1,4 +1,7 @@
 # Avigilon OpenPath
+
+Read the [Avigilon Openpath integration documentation](https://docs.nimsuite.com/en/integrations/avigilon-openpath) for connector details and related guides.
+
 ![image](https://github.com/Tools4ever-NIM/NIM-System-REST-OpenPath/assets/134305269/622a3ea4-73d0-48d0-a3b4-a8c3af6196a4)
 
 
